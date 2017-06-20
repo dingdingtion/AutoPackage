@@ -123,6 +123,36 @@ xcodebuild -exportArchive -archivePath ${xcarchivepath} \
                            -exportPath  ${export_path} \
                            -exportOptionsPlist ${exportOptionsPlist}
 
+export_ipa_path=$export_path
+ipa_name=$project_name
 
-open $export_path
+ # 选择用fir或者是pgyer上传
+echo "请选择ipa测试发布平台(输入序号, 按回车即可)"
+echo "1. 蒲公英"
+echo "0. 退出"
+
+# 读取用户输入并存到变量里
+read parameter
+sleep 0.5
+uploadType="$parameter"
+
+if test -n "$uploadType"
+then
+	if [ "${uploadType}" -eq "0" ] ; then
+		exit 1
+    if [ "${uploadType}" -eq "1" ] ; then
+        curl -F "file=@$export_ipa_path/$ipa_name.ipa" \
+        -F "uKey=" \
+        -F "_api_key="\
+        -F "publishRange=2" \
+        "http://www.pgyer.com/apiv1/app/upload"
+        echo "\n\033[32;1m************************* 上传 $ipa_name.ipa 包 到 pgyer 成功 🎉 🎉 🎉 *************************\033[0m\n"
+    else    
+        echo "\n\033[31;1m************************* 您输入的参数无效!!! *************************\033[0m\n"
+        exit 1
+    fi
+
+    open $export_path
+fi
+
 
