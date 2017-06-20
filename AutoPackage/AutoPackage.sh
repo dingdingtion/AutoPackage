@@ -140,10 +140,10 @@ if test -n "$uploadType"
 then
 	if [ "${uploadType}" -eq "0" ] ; then
 		exit 1
-    if [ "${uploadType}" -eq "1" ] ; then
+    elif [ "${uploadType}" -eq "1" ] ; then
         curl -F "file=@$export_ipa_path/$ipa_name.ipa" \
-        -F "uKey=" \
-        -F "_api_key="\
+        -F "uKey=ae4e750f6629d4a14b6daee2006cafbb" \
+        -F "_api_key=be055e6afe50c27c36109825919d8cd4"\
         -F "publishRange=2" \
         "http://www.pgyer.com/apiv1/app/upload"
         echo "\n\033[32;1m************************* 上传 $ipa_name.ipa 包 到 pgyer 成功 🎉 🎉 🎉 *************************\033[0m\n"
